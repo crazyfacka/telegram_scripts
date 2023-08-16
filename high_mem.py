@@ -52,7 +52,7 @@ def get_top_memory_processes(num_processes=5):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python send_telegram.py mem swap")
+        print(f"Usage: python {sys.argv[0]} mem swap")
         sys.exit(1)
 
     mem = sys.argv[1]
