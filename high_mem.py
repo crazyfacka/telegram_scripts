@@ -1,8 +1,8 @@
-import psutil
 import humanize
+import json
+import psutil
 import requests
 import sys
-import json
 
 def send_telegram_message(bot_token, chat_id, mem, swap):
     base_url = f"https://api.telegram.org/bot{bot_token}/"
