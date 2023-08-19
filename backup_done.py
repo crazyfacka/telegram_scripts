@@ -19,7 +19,7 @@ def send_telegram_message(bot_token, chat_id, bk_file, err_file, bk_time):
     text = f"""
 🟢📼 Backup complete!
 
-It took {humanize.precisedelta(bk_time)}
+It took {humanize.precisedelta(float(bk_time))}
 
 {f_info[0]}
 {f_info[1]}
