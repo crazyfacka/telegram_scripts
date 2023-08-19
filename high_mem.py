@@ -1,5 +1,6 @@
 import humanize
 import json
+import os
 import psutil
 import requests
 import sys
@@ -58,7 +59,8 @@ if __name__ == "__main__":
     mem = sys.argv[1]
     swap = sys.argv[2]
 
-    with open('telegram_info.json') as f:
+    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    with open(f'{__location__}/telegram_info.json') as f:
         telegram_info = json.load(f)
 
     # Replace 'YOUR_BOT_TOKEN' with your actual bot token

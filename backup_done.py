@@ -63,7 +63,8 @@ if __name__ == "__main__":
     err_file = sys.argv[2]
     bk_time = sys.argv[3]
 
-    with open('telegram_info.json') as f:
+    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    with open(f'{__location__}/telegram_info.json') as f:
         telegram_info = json.load(f)
 
     # Replace 'YOUR_BOT_TOKEN' with your actual bot token
