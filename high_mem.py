@@ -1,36 +1,8 @@
 import humanize
-import json
-import os
 import psutil
-import requests
 import sys
 
-def send_telegram_message(bot_token, chat_id, mem, swap):
-    base_url = f"https://api.telegram.org/bot{bot_token}/"
-    send_message_url = f"{base_url}sendMessage"
-
-    text = f"""
-🟡🖥️ High memory or swap usage!
-
-Memory: {mem}%
-Swap: {swap}%
-
-Top 5 memory-consuming processes:
-{get_top_memory_processes()}
-"""
-
-    payload = {
-        'chat_id': chat_id,
-        'text': text,
-    }
-
-    response = requests.post(send_message_url, data=payload)
-    result = response.json()
-
-    if result['ok']:
-        return True, result['result']
-    else:
-        return False, result['description']
+import common.telegram_dispatcher as td
 
 def get_top_memory_processes(num_processes=5):
     process_list = []
@@ -59,17 +31,16 @@ if __name__ == "__main__":
     mem = sys.argv[1]
     swap = sys.argv[2]
 
-    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    with open(f'{__location__}/telegram_info.json') as f:
-        telegram_info = json.load(f)
+    subject = "🟡🖥️ High memory or swap usage!"
+    text = f"""
+Memory: {mem}%
+Swap: {swap}%
 
-    # Replace 'YOUR_BOT_TOKEN' with your actual bot token
-    bot_token = telegram_info['bot_token']
+Top 5 memory-consuming processes:
+{get_top_memory_processes()}
+"""
 
-    # Replace 'CHAT_ID' with the chat ID where you want to send the message
-    chat_id = telegram_info['chat_id']
-
-    success, response = send_telegram_message(bot_token, chat_id, mem, swap)
+    success, response = td.send_telegram_message(subject, text)
 
     if success:
         print("Message sent successfully:", response)
