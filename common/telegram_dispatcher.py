@@ -2,8 +2,11 @@ import json
 import os
 import requests
 
-def send_telegram_message(bot_token, chat_id, subject, msg):
-    base_url = f"https://api.telegram.org/bot{bot_token}/"
+BOT_TOKEN = ""
+CHAT_ID = ""
+
+def send_telegram_message(subject, msg):
+    base_url = f"https://api.telegram.org/bot{BOT_TOKEN}/"
     send_message_url = f"{base_url}sendMessage"
 
     text = f"""
@@ -13,7 +16,7 @@ def send_telegram_message(bot_token, chat_id, subject, msg):
 """
 
     payload = {
-        'chat_id': chat_id,
+        'chat_id': CHAT_ID,
         'text': text,
     }
 
@@ -32,5 +35,5 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 with open(f'{__location__}/telegram_info.json') as f:
     telegram_info = json.load(f)
 
-bot_token = telegram_info['bot_token']
-chat_id = telegram_info['chat_id']
+BOT_TOKEN = telegram_info['bot_token']
+CHAT_ID = telegram_info['chat_id']
