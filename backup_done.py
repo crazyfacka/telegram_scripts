@@ -1,45 +1,9 @@
 import humanize
-import json
 import os
-import requests
 import subprocess
 import sys
 
-def send_telegram_message(bot_token, chat_id, bk_file, err_file, bk_time):
-    base_url = f"https://api.telegram.org/bot{bot_token}/"
-    send_message_url = f"{base_url}sendMessage"
-
-    errors = ""
-    with open(err_file) as f:
-        for line in f:
-            errors = errors + line
-
-    f_info = get_file_info(bk_file)
-
-    text = f"""
-🟢📼 Backup complete!
-
-It took {humanize.precisedelta(float(bk_time))}
-
-{f_info[0]}
-{f_info[1]}
-
-Log:
-{errors}
-"""
-
-    payload = {
-        'chat_id': chat_id,
-        'text': text,
-    }
-
-    response = requests.post(send_message_url, data=payload)
-    result = response.json()
-
-    if result['ok']:
-        return True, result['result']
-    else:
-        return False, result['description']
+import common.telegram_dispatcher as td
 
 def get_file_info(filename):
     try:
@@ -63,17 +27,25 @@ if __name__ == "__main__":
     err_file = sys.argv[2]
     bk_time = sys.argv[3]
 
-    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    with open(f'{__location__}/telegram_info.json') as f:
-        telegram_info = json.load(f)
+    errors = ""
+    with open(err_file) as f:
+        for line in f:
+            errors = errors + line
 
-    # Replace 'YOUR_BOT_TOKEN' with your actual bot token
-    bot_token = telegram_info['bot_token']
+    f_info = get_file_info(bk_file)
 
-    # Replace 'CHAT_ID' with the chat ID where you want to send the message
-    chat_id = telegram_info['chat_id']
+    subject = "🟢📼 Backup complete!"
+    text = f"""
+It took {humanize.precisedelta(float(bk_time))}
 
-    success, response = send_telegram_message(bot_token, chat_id, bk_file, err_file, bk_time)
+{f_info[0]}
+{f_info[1]}
+
+Log:
+{errors}
+"""
+
+    success, response = td.send_telegram_message(subject, text)
 
     if success:
         print("Message sent successfully:", response)
