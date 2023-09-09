@@ -1,3 +1,4 @@
+"""Generate a standard informative message"""
 import sys
 
 import common.telegram_dispatcher as td
@@ -22,4 +23,3 @@ if __name__ == "__main__":
         print("Message sent successfully:", response)
     else:
         print("Failed to send message:", response)
-

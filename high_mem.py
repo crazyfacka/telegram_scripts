@@ -1,10 +1,12 @@
+"""Compute a message when high memory or swap usage is detected"""
+import sys
 import humanize
 import psutil
-import sys
 
 import common.telegram_dispatcher as td
 
 def get_top_memory_processes(num_processes=5):
+    """List top memory consuming processes"""
     process_list = []
 
     for process in psutil.process_iter(['pid', 'name', 'memory_info']):

@@ -1,14 +1,17 @@
-import humanize
+"""Creates a backup done message to be sent"""
 import os
 import subprocess
 import sys
+import humanize
 
 import common.telegram_dispatcher as td
 
 def get_file_info(filename):
+    """Get information from backup file"""
     try:
         # Run the 'file' command and capture its output
-        result = subprocess.check_output(['file', filename], stderr=subprocess.STDOUT, universal_newlines=True)
+        result = subprocess.check_output(['file', filename],
+                                         stderr=subprocess.STDOUT, universal_newlines=True)
 
         # Get file size in human-readable format
         size_bytes = os.path.getsize(filename)

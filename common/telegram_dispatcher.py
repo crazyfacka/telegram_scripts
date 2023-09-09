@@ -1,3 +1,4 @@
+"""Standard implementation of the Telegram post message API"""
 import json
 import os
 import requests
@@ -6,6 +7,7 @@ BOT_TOKEN = ""
 CHAT_ID = ""
 
 def send_telegram_message(subject, msg):
+    """What it states"""
     base_url = f"https://api.telegram.org/bot{BOT_TOKEN}/"
     send_message_url = f"{base_url}sendMessage"
 
