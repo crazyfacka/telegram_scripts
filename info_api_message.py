@@ -5,11 +5,11 @@ import common.telegram_dispatcher as td
 
 app = Flask(__name__)
 
-@app.route('/send', methods=['GET'])
+@app.route('/send', methods=['POST'])
 def send_message():
     """Send message through telegram from this API endpoint"""
-    subject = request.args['subject']
-    message = request.args['message']
+    subject = request.form['subject']
+    message = request.form['message']
     print(f'Received arguments: {subject}, {message}')
 
     f_subject = f"""
