@@ -1,0 +1,10 @@
+FROM python:3.12
+
+WORKDIR /app
+
+RUN pip install "Flask==3.0.2" "requests==2.26.0"
+
+COPY info_api_message.py /app/
+COPY common /app/common
+
+ENTRYPOINT [ "python", "info_api_message.py" ]
